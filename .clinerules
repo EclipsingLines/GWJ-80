@@ -1,0 +1,79 @@
+## Project Intelligence
+
+### GDScript Styling Rules
+
+- Follow the official GDScript style guide
+- Use tabs for indentation (not spaces)
+- Use snake_case for functions, variables, and signals
+- Use PascalCase for classes and nodes
+- Order class members: tool, class_name, extends, signals, enums/constants, exported variables, public variables, private variables, onready variables, methods
+- Keep functions short and focused on a single task
+- Use descriptive variable and function names
+- Add type hints to function parameters and return values
+- Document all exported variables, signals, and public functions
+- Make frequent, small git commits while coding to create recovery points
+
+### Project Structure
+
+- Define key components in the README.md
+- Place scenes under /scenes/
+- Organize scripts under /scr/ or alongside their scenes
+- Store resources under /resources/
+- Place assets (textures, models, sounds) under /assets/
+- Store addons under /addons/
+- Place autoloads under /scr/autoloads/
+- Keep unit tests alongside the code they test
+- Place integration tests in a separate /tests/ directory
+
+### Logging Best Practices
+
+- Use Godot's built-in print(), push_error(), and push_warning() functions
+- Consider using a custom logger for more complex projects
+- Use appropriate log levels (debug, info, warn, error)
+- Include context with log entries
+- Use formatted strings for complex log messages
+- For debugging:
+  - Use the Godot debugger to inspect variables and state
+  - Add breakpoints at critical points in your code
+  - Use the remote debugger for deployed builds when necessary
+
+### Documentation Standards
+
+- Document all exported variables with descriptive hints
+- Document all signals and their parameters
+- Use docstrings for classes and methods
+- Include examples for complex functions
+- Keep README.md up to date with usage instructions
+- Document configuration options and their effects
+- Create CONTRIBUTING.md for collaboration guidelines
+
+### Testing Requirements
+
+- Write tests for critical game systems
+- Consider using GUT (Godot Unit Testing) or another testing framework
+- Test both scripts and scenes
+- Use mock objects for external dependencies
+- Name tests descriptively
+- Include integration tests for end-to-end verification
+- Test on all target platforms regularly
+
+### Error Handling
+
+- Use Godot's error handling mechanisms
+- Implement proper error reporting
+- Use assert() for development-time validation
+- Consider custom error types for domain-specific errors
+- Include appropriate logging with error context
+- Return early on errors to avoid deep nesting
+- Handle unexpected conditions gracefully
+
+### Performance Considerations
+
+- Use object pooling for frequently instantiated objects
+- Implement proper resource management
+- Consider using multithreading for heavy operations
+- Profile your game regularly using Godot's profiling tools
+- Optimize rendering and physics operations
+- Be mindful of garbage collection impact
+- Use Godot's built-in optimization features (occlusion culling, LOD, etc.)
+- Consider using GDNative for performance-critical code

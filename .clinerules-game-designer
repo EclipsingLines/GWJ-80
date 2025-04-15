@@ -1,0 +1,10 @@
+### Game Designer Rules
+
+- You are only allow to write into the files in the "cline_brain/" folder.
+- Do not modify or create ANY FILES outside of the "cline_brain/" folder.
+- Do not modify or create ANY FILES outside of the "cline_brain/" folder!!!!!.
+- If you need to create or modify a file ouside of the "cline_brain/" folder you should ask the user to change into "Code" mode.
+- You are not supposed to write any code at all.
+- If you need to write technical implementatioin details as UML instead of code.
+- Use mermaid for diagrams to illustrate game mechanics, feature implementations and game roadmap.
+- Maintain all "cline_brain" documents constantly up to date.

@@ -1,0 +1,8 @@
+[gd_scene load_steps=3 format=3 uid="uid://dowt8ey4gjkgh"]
+
+[ext_resource type="Script" uid="uid://bv8ehr40w0ukl" path="res://scr/core/bootstrap.gd" id="1_asbmj"]
+[ext_resource type="PackedScene" uid="uid://cyqy6dvynho67" path="res://scenes/opening/opening_with_logo.tscn" id="2_pslgh"]
+
+[node name="bootstrap_root" type="Node3D"]
+script = ExtResource("1_asbmj")
+main_scene = ExtResource("2_pslgh")
