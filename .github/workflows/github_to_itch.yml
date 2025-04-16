@@ -53,16 +53,6 @@ jobs:
      mkdir -p ./exports
      ./godot --headless --path ./ --export-release "Web" ./exports/index.html
     
-  - name: Export Windows Desktop
-    run: |
-     mkdir -p ./
-     ./godot --headless --path ./ --export-release "Windows Desktop" ./
-    
-  - name: Export Linux
-    run: |
-     mkdir -p ./
-     ./godot --headless --path ./ --export-release "Linux" ./
-    
 
   - uses: actions/upload-artifact@v4
     with:
@@ -162,13 +152,7 @@ jobs:
      run: ./butler login
    
    - name: Push Web to Itch
-     run: ./butler push ./ eclipsinglines/orbit:web --userversion-file ./VERSION/VERSION.txt
-    
-   - name: Push Windows Desktop to Itch
-     run: ./butler push ./ eclipsinglines/orbit:win --userversion-file ./VERSION/VERSION.txt
-    
-   - name: Push Linux to Itch
-     run: ./butler push ./ eclipsinglines/orbit:linux --userversion-file ./VERSION/VERSION.txt
+     run: ./butler push ./exports eclipsinglines/gwj-80:web --userversion-file ./VERSION/VERSION.txt
     
 
  Cleanup:
