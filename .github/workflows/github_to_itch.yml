@@ -12,7 +12,7 @@ env:
  DISCORD_WEBHOOK: ${{secrets.DISCORD_WEBHOOK}} # Needs to be added through github
  GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
  IS_MAIN: ${{ contains(github.ref, 'main') }}
- PROJECT_NAME: "orbit_template"
+ PROJECT_NAME: "gjw-80"
 
 jobs:
  CleanArtifacts:

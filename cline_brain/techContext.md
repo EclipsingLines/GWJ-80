@@ -1,4 +1,4 @@
-# Technical Context: [Project Name]
+# Technical Context: gwj_80
 
 ## Technology Stack
 
@@ -184,7 +184,7 @@ project/
      - `CleanArtifacts`: Removes old build artifacts.
      - `Export`: Builds the project for Web, Windows Desktop, and Linux using Godot 4.4 stable. Uploads exports as an artifact named `exports`.
      - `Release`: (Runs only on `main` branch push) Creates a version tag, generates a GitHub Release, and uploads a zipped archive of the exports. Creates a `VERSION.txt` artifact.
-     - `Publish`: (Runs only on `main` branch push) Downloads the `exports` and `VERSION.txt` artifacts, logs into Butler using `BUTLER_API_KEY`, and pushes the Web, Windows, and Linux builds to the `eclipsinglines/orbit` Itch.io project, using the version from `VERSION.txt`.
+     - `Publish`: (Runs only on `main` branch push) Downloads the `exports` and `VERSION.txt` artifacts, logs into Butler using `BUTLER_API_KEY`, and pushes the Web, Windows, and Linux builds to the `[itch-username]/gwj_80` Itch.io project, using the version from `VERSION.txt`.
      - `Cleanup`: Removes the `VERSION.txt` artifact after publishing.
 
 ## Technical Constraints

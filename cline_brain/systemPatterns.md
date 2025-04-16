@@ -1,4 +1,4 @@
-# System Patterns: [Project Name]
+# System Patterns: gwj_80
 
 ## Architecture Overview
 
