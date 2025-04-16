@@ -161,13 +161,13 @@ jobs:
    - name: Login To Butler
      run: ./butler login
    
-    - name: Push Web to Itch
+   - name: Push Web to Itch
       run: ./butler push ./ eclipsinglines/orbit:web --userversion-file ./VERSION/VERSION.txt
     
-    - name: Push Windows Desktop to Itch
+   - name: Push Windows Desktop to Itch
       run: ./butler push ./ eclipsinglines/orbit:win --userversion-file ./VERSION/VERSION.txt
     
-    - name: Push Linux to Itch
+   - name: Push Linux to Itch
       run: ./butler push ./ eclipsinglines/orbit:linux --userversion-file ./VERSION/VERSION.txt
     
 
