@@ -1,4 +1,4 @@
-name: Publish orbit_template to Itch.io
+name: Publish GWJ-80 to Itch.io
 
 on:
  push:
@@ -12,7 +12,7 @@ env:
  DISCORD_WEBHOOK: ${{secrets.DISCORD_WEBHOOK}} # Needs to be added through github
  GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
  IS_MAIN: ${{ contains(github.ref, 'main') }}
- PROJECT_NAME: "gjw-80"
+ PROJECT_NAME: "GWJ-80"
 
 jobs:
  CleanArtifacts:
@@ -50,8 +50,8 @@ jobs:
   
   - name: Export Web
     run: |
-     mkdir -p ./
-     ./godot --headless --path ./ --export-release "Web" ./
+     mkdir -p ./exports
+     ./godot --headless --path ./ --export-release "Web" ./exports/index.html
     
   - name: Export Windows Desktop
     run: |
