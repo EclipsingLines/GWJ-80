@@ -29,7 +29,7 @@ enabled=PackedStringArray("res://addons/github_to_itch/plugin.cfg", "res://addon
 [github_to_itch]
 
 config/itch_username="eclipsinglines"
-config/itch_project_name="orbit"
+config/itch_project_name="gwj-80"
 
 [internationalization]
 
