@@ -22,8 +22,8 @@ var export_template: String = """  - name: Export {PLATFORM}
 	 ./godot --headless --path ./ --export-release "{NAME}" ./{EXPORT_FILE}
 	
 """.replace("\t", "    ")
-var uploads_template: String = """	- name: Push {PLATFORM} to Itch
-	  run: ./butler push {EXPORT_PATH} {ITCH_USERNAME}/{ITCH_PROJECT_NAME}:{ITCH_CHANNEL} --userversion-file ./VERSION/VERSION.txt
+var uploads_template: String = """- name: Push {PLATFORM} to Itch
+	run: ./butler push {EXPORT_PATH} {ITCH_USERNAME}/{ITCH_PROJECT_NAME}:{ITCH_CHANNEL} --userversion-file ./VERSION.txt
 	
 """.replace("\t", "    ")
 
