@@ -63,8 +63,8 @@
 - **[x] Task 7:** Implement Card Drawing Logic (Basic draw per turn).
 - **[x] Task 8:** Implement Input Handling (Selecting card, clicking grid).
 - **[x] Task 9:** Integrate Card Placement (Connecting input, card selection, shape logic, color application).
-- **[ ] Task 10:** Refine Color Blending Logic (Implement 5-blend rule -> black).
-- **[ ] Task 11:** Build Basic Sandbox UI (Grid, Hand).
+- **[X] Task 10:** Refine Color Blending Logic (Implement 5-blend rule -> black).
+- **[X] Task 11:** Build Basic Sandbox UI (Grid, Hand).
 - --- *Sandbox Complete ---*
 - **[ ] Task 12:** Implement Target Image Loading/Display.
 - **[ ] Task 13:** Implement Turn Limit System.

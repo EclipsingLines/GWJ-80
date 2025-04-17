@@ -11,4 +11,4 @@ const CELL_SPACING: int = 2 # Empty spacing between grid cells
 
 
 const INITIAL_HAND_SIZE = 5 # How many cards to draw initially
-const INITIAL_DEXK_SIZE = 50 # How many cards are in the deck initially
+const INITIAL_DECK_SIZE = 50 # How many cards are in the deck initially
