@@ -152,7 +152,7 @@ jobs:
      run: ./butler login
    
    - name: Push Web to Itch
-     run: ./butler push ./exports eclipsinglines/gwj-80:web --userversion-file ./VERSION/VERSION.txt
+     run: ./butler push ./exports eclipsinglines/gwj-80:web --userversion-file ./VERSION.txt
     
 
  Cleanup:
