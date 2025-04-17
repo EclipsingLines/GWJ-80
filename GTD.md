@@ -54,15 +54,15 @@
 
 *(Focus on Sandbox First)*
 
-- **[ ] Task 1:** Project Setup (Confirm Godot version, Git repo, basic structure).
-- **[ ] Task 2:** Implement Grid System (Data structure, basic display).
-- **[ ] Task 3:** Implement Card Data Structure (Resource definition).
-- **[ ] Task 4:** Implement Card Shapes Logic (Applying shapes to grid coordinates).
-- **[ ] Task 5:** Implement Basic Color Application (Overwrite/Initial Blend).
-- **[ ] Task 6:** Implement Player Hand UI (Displaying cards).
-- **[ ] Task 7:** Implement Card Drawing Logic (Basic draw per turn).
-- **[ ] Task 8:** Implement Input Handling (Selecting card, clicking grid).
-- **[ ] Task 9:** Integrate Card Placement (Connecting input, card selection, shape logic, color application).
+- **[x] Task 1:** Project Setup (Confirm Godot version, Git repo, basic structure).
+- **[x] Task 2:** Implement Grid System (Data structure, basic display).
+- **[x] Task 3:** Implement Card Data Structure (Resource definition).
+- **[x] Task 4:** Implement Card Shapes Logic (Applying shapes to grid coordinates).
+- **[x] Task 5:** Implement Basic Color Application (Overwrite/Initial Blend).
+- **[x] Task 6:** Implement Player Hand UI (Displaying cards).
+- **[x] Task 7:** Implement Card Drawing Logic (Basic draw per turn).
+- **[x] Task 8:** Implement Input Handling (Selecting card, clicking grid).
+- **[x] Task 9:** Integrate Card Placement (Connecting input, card selection, shape logic, color application).
 - **[ ] Task 10:** Refine Color Blending Logic (Implement 5-blend rule -> black).
 - **[ ] Task 11:** Build Basic Sandbox UI (Grid, Hand).
 - --- *Sandbox Complete ---*
