@@ -6,8 +6,9 @@ extends Control
 signal grid_clicked(grid_pos: Vector2i)
 
 # Reference to the GridContainer node that will hold the cell visuals
-@onready var grid_container: GridContainer = $GridContainer
-
+@onready var grid_container: GridContainer = %GridContainer
+@onready var discard_button: TextureButton = %TextureButton
+@onready var turn_label: Label = %TurnLabel
 
 # Size for each cell's ColorRect
 var CELL_SIZE: Vector2 = Vector2(Constants.CELL_SIZE_INT, Constants.CELL_SIZE_INT) # Adjust as needed for desired visual size
@@ -23,6 +24,7 @@ var _original_cell_scale: Vector2 = Vector2.ONE
 var _hover_animation_scale: Vector2 = Vector2(0.8, 0.8) # Target scale for shrinking
 var _hover_animation_duration: float = 0.15 # Duration of the tween
 var _active_tweens: Dictionary = {} # Stores active tweens, keyed by Vector2i cell position
+var _selected_color: Color = Color(1, 1, 1, 0) # Current color for preview, default transparent white
 # ---------------------------------
 
 # Called when the node enters the scene tree for the first time.
@@ -95,7 +97,7 @@ func update_display(grid_data: Array) -> void:
 				var cell_data: CellData = grid_data[y][x]
 				if is_instance_valid(_cell_rects[y][x]): # Check if rect is valid
 					if cell_data: # Check if it has a color property
-						_cell_rects[y][x].color = cell_data.color
+						_cell_rects[y][x].color = cell_data.display_color
 					else:
 						# Fallback or error handling if data is missing/invalid
 						_cell_rects[y][x].color = Color.MAGENTA # Use magenta to indicate an error
@@ -118,11 +120,11 @@ func _process(delta: float) -> void:
 	# Also check if the node is visible
 	if is_visible_in_tree() and (current_hover_pos != _hovered_grid_pos):
 		# Reset previously animated cells that are NOT part of the new hover effect
-		var new_affected_cells:Array[Vector2i] = []
+		var new_affected_cells: Array[Vector2i] = []
 		if is_within_bounds and current_hover_pos.x >= 0 and _current_selected_shape_coords.size() > 0:
 			new_affected_cells = _get_affected_cells(current_hover_pos, _current_selected_shape_coords)
 
-		var cells_to_reset:Array[Vector2i] = []
+		var cells_to_reset: Array[Vector2i] = []
 		for cell_pos in _currently_animated_cells:
 			if not cell_pos in new_affected_cells:
 				cells_to_reset.append(cell_pos)
@@ -131,7 +133,7 @@ func _process(delta: float) -> void:
 			_reset_cell_animations(cells_to_reset)
 
 		# Animate newly affected cells
-		var cells_to_animate:Array[Vector2i] = []
+		var cells_to_animate: Array[Vector2i] = []
 		for cell_pos in new_affected_cells:
 			if not cell_pos in _currently_animated_cells:
 				cells_to_animate.append(cell_pos)
@@ -202,7 +204,7 @@ func _get_affected_cells(hover_pos: Vector2i, shape_coords: Array[Vector2i]) -> 
 			affected.append(absolute_pos)
 	return affected
 
-## Resets the scale animation for a list of cells.
+## Resets the scale and color modulation animation for a list of cells.
 func _reset_cell_animations(cells: Array[Vector2i]) -> void:
 	for cell_pos in cells:
 		# Check bounds before trying to access _cell_rects
@@ -219,14 +221,17 @@ func _reset_cell_animations(cells: Array[Vector2i]) -> void:
 							existing_tween.kill()
 						# Don't erase here yet, let the new tween overwrite or finished signal clean up
 
-					# Create a new tween to smoothly return to original scale
-					var tween: Tween = create_tween().set_parallel(true) # Scale can be parallel
+					# Create a new tween to smoothly return to original state
+					var tween: Tween = create_tween().set_parallel(true) # Scale and modulate can be parallel
 					_active_tweens[cell_pos] = tween # Store the new tween
+					# Tween scale back to normal
 					tween.tween_property(cell_rect, "scale", _original_cell_scale, _hover_animation_duration * 0.5).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_OUT)
+					# Tween modulate back to white (no color overlay)
+					tween.tween_property(cell_rect, "modulate", Color.WHITE, _hover_animation_duration * 0.5).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_OUT)
 					# Remove tween from dict when finished
 					tween.finished.connect(_on_tween_finished.bind(cell_pos))
 
-## Applies the shrinking animation to a single cell.
+## Applies the shrinking and color modulation animation to a single cell.
 func _animate_cell_hover(cell_pos: Vector2i) -> void:
 	# Check bounds before trying to access _cell_rects
 	if cell_pos.x >= 0 and cell_pos.x < Constants.GRID_WIDTH and \
@@ -242,10 +247,17 @@ func _animate_cell_hover(cell_pos: Vector2i) -> void:
 						existing_tween.kill()
 					# Don't erase here yet, let the new tween overwrite or finished signal clean up
 
-				# Create a new tween for the shrink animation
-				var tween: Tween = create_tween().set_parallel(true) # Scale can be parallel
+				# Create a new tween for the shrink and color animation
+				var tween: Tween = create_tween().set_parallel(true) # Scale and modulate can be parallel
 				_active_tweens[cell_pos] = tween # Store the new tween
+				# Tween scale for shrinking effect
 				tween.tween_property(cell_rect, "scale", _hover_animation_scale, _hover_animation_duration).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_IN_OUT)
+				# Apply color modulation if a valid color is selected (alpha > 0)
+				var preview_color = Color.WHITE # Default to no modulation
+				if _selected_color.a > 0:
+					preview_color = _selected_color
+				# Tween modulate to the preview color
+				tween.tween_property(cell_rect, "modulate", preview_color, _hover_animation_duration).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_IN_OUT)
 				# Remove tween from dict when finished
 				tween.finished.connect(_on_tween_finished.bind(cell_pos))
 
@@ -271,6 +283,15 @@ func set_selected_shape(shape_coords: Array[Vector2i]) -> void:
 		_currently_animated_cells.clear()
 		# Force an update in the next process frame by invalidating hover pos
 		_hovered_grid_pos = Vector2i(-2, -2) # Use a value guaranteed to be different
+
+## Public function to update the currently selected color for preview.
+## Pass Color(1,1,1,0) or similar transparent color to disable color preview.
+func set_selected_color(color: Color) -> void:
+	if _selected_color != color:
+		_selected_color = color
+		# Force an update in the next process frame by invalidating hover pos
+		# This ensures the color preview updates immediately if the mouse isn't moving
+		_hovered_grid_pos = Vector2i(-2, -2)
 
 ## Cleans up finished tweens from the dictionary.
 func _on_tween_finished(cell_pos: Vector2i) -> void:

@@ -1,0 +1,10 @@
+[gd_resource type="Resource" script_class="GameColorPalette" load_steps=2 format=3 uid="uid://dw8dai33gcelj"]
+
+[ext_resource type="Script" uid="uid://j2tytfu1j4f2" path="res://scr/resources/color_palette.gd" id="1_82cnh"]
+
+[resource]
+script = ExtResource("1_82cnh")
+base_color = Color(0.123699, 0.541246, 0.768139, 1)
+start_hue = 0.55868
+saturation = 1.0
+value = 1.0

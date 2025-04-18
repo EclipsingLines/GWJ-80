@@ -15,4 +15,5 @@ func update_name_label():
 	text = config_name
 
 func _ready():
-	update_name_label()
+	pass
+	#update_name_label()

@@ -10,6 +10,7 @@ extends Node3D
 # Reference to the player hand UI
 @onready var hand_ui: HandUI = $ui_root/HandUI
 
+var discard_button: TextureButton
 # Player's current hand
 var _player_hand: Array[CardData] = []
 
@@ -20,7 +21,8 @@ var _deck: Array[CardData] = []
 var _selected_card_data: CardData = null
 var _selected_card_index: int = -1
 
-# Constants
+# Turn counter
+var turns_remaining: int=0
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
@@ -34,6 +36,7 @@ func _ready() -> void:
 		if not grid_display:
 			push_error("MainGame: GridDisplay node not found or not assigned!")
 			return
+	discard_button = grid_display.discard_button
 	if not hand_ui:
 		hand_ui = find_child("HandUI", true, false) # Recursive search
 		if not hand_ui:
@@ -54,12 +57,44 @@ func _ready() -> void:
 		if not grid_display.is_connected("grid_clicked", Callable(self, "_on_grid_display_clicked")):
 			grid_display.grid_clicked.connect(_on_grid_display_clicked)
 			
+	discard_button.disabled = true
+	discard_button.pressed.connect(_on_discard_selected_card)
+	
+	turns_remaining = Constants.INITIAL_DECK_SIZE
+	grid_display.turn_label.text = "%1.0d" % turns_remaining
 	# Initial display update after nodes are ready
 	await get_tree().process_frame # Wait a frame ensures GridDisplay/HandUI also ran _ready
 	_on_grid_updated() # Call handler directly for initial grid display
 	_create_and_shuffle_deck() # Prepare the deck first
 	_initialize_player_hand() # Setup initial hand
 
+func _on_discard_selected_card():
+	print("Discarding card at: " + String.num(_selected_card_index))
+	if _selected_card_index >= 0 and _selected_card_index < _player_hand.size():
+		_player_hand.remove_at(_selected_card_index)
+	else:
+		push_error("MainGame: Invalid selected card index %d after successful placement!" % _selected_card_index)
+	# Reset selection state
+	_selected_card_data = null
+	_selected_card_index = -1
+	discard_button.disabled = true
+	# Update the hand UI
+	if hand_ui:
+		hand_ui.display_hand(_player_hand)
+	else:
+		push_error("MainGame: HandUI node not available to update after card placement.")
+	
+	if grid_display:
+		grid_display.set_selected_shape([])
+		# Reset selected color preview
+		grid_display.set_selected_color(Color(1, 1, 1, 0)) # Use transparent white
+	else:
+		push_error("MainGame: GridDisplay node not available to update after card placement.")
+	
+	# Draw a new card (Task 7 placeholder)
+	turns_remaining = turns_remaining - 1
+	grid_display.turn_label.text = "%1.0d" % turns_remaining
+	_draw_card_for_turn()
 
 func _on_grid_updated():
 	if grid_display and grid_system:
@@ -78,16 +113,14 @@ func _create_and_shuffle_deck() -> void:
 	_deck.clear()
 	# Define the colors and shapes to include in the deck
 	# TODO: Refine deck composition based on game balance needs
-	var colors = [Color.RED, Color.GREEN, Color.BLUE]
+	var palette : GameColorPalette = grid_system.palette
+	var colors = [palette.get_primary_1(), palette.get_primary_2(), palette.get_primary_3()]
 	var shapes = CardData.Shape.keys() # Get all defined shapes
-
-	for shape_name in shapes:
-		var shape_enum = CardData.Shape[shape_name] # Get enum value from name
-		for color in colors:
-			var card = CardData.new()
-			card.shape = shape_enum
-			card.color = color
-			_deck.append(card)
+	for i in range(Constants.INITIAL_DECK_SIZE + Constants.INITIAL_HAND_SIZE):
+		var card = CardData.new()
+		card.shape = CardData.Shape[shapes.pick_random()]
+		card.color = colors.pick_random()
+		_deck.append(card)
 
 	# Shuffle the deck
 	_deck.shuffle()
@@ -136,9 +169,12 @@ func _on_hand_card_selected(card_data: CardData, index: int) -> void:
 	print("MainGame: Card selected - Shape: %s, Color: %s, Index: %d" % [CardData.Shape.keys()[card_data.shape], card_data.color, index])
 	if grid_display:
 		grid_display.set_selected_shape(ShapeDefinitions.get_offsets(card_data.shape))
+		# Also set the selected color for preview
+		grid_display.set_selected_color(card_data.color)
 	else:
 		push_error("MainGame: GridDisplay node not available to update after card selected.")
-
+	if discard_button:
+		discard_button.disabled = false
 ## Handles clicks on the grid display.
 func _on_grid_display_clicked(grid_pos: Vector2i) -> void:
 	print("MainGame: Grid clicked at %s" % grid_pos)
@@ -151,28 +187,7 @@ func _on_grid_display_clicked(grid_pos: Vector2i) -> void:
 	if grid_system.apply_card(_selected_card_data, grid_pos.x, grid_pos.y):
 		print("MainGame: Card applied successfully.")
 		# Card was successfully applied, remove it from hand
-		if _selected_card_index >= 0 and _selected_card_index < _player_hand.size():
-			_player_hand.remove_at(_selected_card_index)
-		else:
-			push_error("MainGame: Invalid selected card index %d after successful placement!" % _selected_card_index)
-
-		# Reset selection state
-		_selected_card_data = null
-		_selected_card_index = -1
-
-		# Update the hand UI
-		if hand_ui:
-			hand_ui.display_hand(_player_hand)
-		else:
-			push_error("MainGame: HandUI node not available to update after card placement.")
-		
-		if grid_display:
-			grid_display.set_selected_shape([])
-		else:
-			push_error("MainGame: GridDisplay node not available to update after card placement.")
-		
-		# Draw a new card (Task 7 placeholder)
-		_draw_card_for_turn()
+		_on_discard_selected_card()
 
 	else:
 		print("MainGame: Card application failed (e.g., off-grid, no change).")
