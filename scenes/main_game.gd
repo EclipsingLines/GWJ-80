@@ -20,13 +20,11 @@ var discard_button: TextureButton
 # Player's current hand
 var _player_hand: Array[CardData] = []
 
-# Deck of cards
-var _deck: Array[CardData] = []
-
 # State for card placement
 var _selected_card_data: CardData = null
 var _selected_card_index: int = -1
 
+var _last_discard: CardData = null
 # Turn counter
 var turns_remaining: int = 0
 
@@ -71,7 +69,6 @@ func _ready() -> void:
 	# Initial display update after nodes are ready
 	await get_tree().process_frame # Wait a frame ensures GridDisplay/HandUI also ran _ready
 	_on_grid_updated() # Call handler directly for initial grid display
-	_create_and_shuffle_deck() # Prepare the deck first
 	_initialize_player_hand() # Setup initial hand
 	_load_available_levels() # Load level data
 	_start_new_level() # Select and display initial target level
@@ -91,7 +88,8 @@ func _load_available_levels() -> void:
 				var file_path = level_dir_path.path_join(file_name)
 				var loaded_resource = load(file_path)
 				if loaded_resource is LevelData:
-					available_levels.append(loaded_resource)
+					if loaded_resource.complexity > 0:
+						available_levels.append(loaded_resource)
 				else:
 					push_warning("MainGame: Found non-LevelData resource in levels directory: %s" % file_path)
 			file_name = dir.get_next()
@@ -99,11 +97,14 @@ func _load_available_levels() -> void:
 		print("MainGame: Loaded %d available levels." % available_levels.size())
 	else:
 		push_error("MainGame: Could not open levels directory: %s" % level_dir_path)
+	available_levels.sort_custom(sort_by_complexity)
 
+func sort_by_complexity(a: LevelData, b: LevelData) -> bool:
+	return a.complexity < b.complexity
 
 ## Selects a new random level and updates the target display.
 func _start_new_level() -> void:
-	var target_display_container:GridContainer = grid_display.target_container
+	var target_display_container: GridContainer = grid_display.target_container
 	if available_levels.is_empty():
 		push_warning("MainGame: No levels loaded, cannot start new level.")
 		current_level_data = null
@@ -141,6 +142,7 @@ func _on_discard_selected_card():
 	else:
 		push_error("MainGame: Invalid selected card index %d after successful placement!" % _selected_card_index)
 	# Reset selection state
+	_last_discard = _selected_card_data
 	_selected_card_data = null
 	_selected_card_index = -1
 	discard_button.disabled = true
@@ -175,31 +177,35 @@ func _on_grid_updated():
 
 # --- Hand Management ---
 
-func _create_and_shuffle_deck() -> void:
-	_deck.clear()
-	# Define the colors and shapes to include in the deck
-	# TODO: Refine deck composition based on game balance needs
-	var palette: GameColorPalette = grid_system.palette
-	var colors = [palette.get_primary_1(), palette.get_primary_2(), palette.get_primary_3()]
-	var shapes = CardData.Shape.keys() # Get all defined shapes
-	for i in range(Constants.INITIAL_DECK_SIZE + Constants.INITIAL_HAND_SIZE):
-		var card = CardData.new()
-		card.shape = CardData.Shape[shapes.pick_random()]
-		card.color = colors.pick_random()
-		_deck.append(card)
-
-	# Shuffle the deck
-	_deck.shuffle()
-	print("Deck created with %d cards." % _deck.size())
-
-
 func _draw_card() -> CardData:
-	if _deck.is_empty():
+	if turns_remaining <= 0:
 		push_warning("Attempted to draw from an empty deck.")
 		# TODO: Handle deck reshuffling or game end condition?
 		return null
-	return _deck.pop_front() # Take from the "top" (front) of the shuffled deck
+	var palette: GameColorPalette = grid_system.palette
+	var colors = [palette.get_primary_1(), palette.get_primary_2(), palette.get_primary_3()]
+	var shapes = CardData.Shape.keys() # Get all defined shapes
+	var card: CardData = null
+	if _last_discard:
+		card = _last_discard.duplicate(true)
+		shapes.erase(card.shape)
+		colors.erase(card.color)
+		card.shape = CardData.Shape[shapes.pick_random()]
+		card.color = colors.pick_random()
+		while hand_contains_card(card):
+			card.shape = CardData.Shape[shapes.pick_random()]
+			card.color = colors.pick_random()
+	else:
+		card = CardData.new()
+		card.shape = CardData.Shape[shapes.pick_random()]
+		card.color = colors.pick_random()
+	return card # Take from the "top" (front) of the shuffled deck
 
+func hand_contains_card(card: CardData) -> bool:
+	for hand_card: CardData in _player_hand:
+		if hand_card.color == card.color and hand_card.shape == card.shape:
+			return true
+	return false
 
 func _initialize_player_hand() -> void:
 	_player_hand.clear()

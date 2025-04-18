@@ -3,7 +3,6 @@
 class_name TargetDisplay
 extends Control
 
-const LevelData = preload("res://scr/resources/level_data.gd")
 
 ## The LevelData resource containing the target colors to display.
 @export var level_data: LevelData: set = _set_level_data
@@ -12,6 +11,12 @@ const LevelData = preload("res://scr/resources/level_data.gd")
 @export var cell_size := Vector2i(Constants.CELL_SIZE_INT, Constants.CELL_SIZE_INT): set = _set_cell_size # Example size, adjust as needed
 ## Spacing between cells in pixels.
 @export var cell_spacing: int = 4: set = _set_cell_spacing
+
+var current_highlight : Vector2i = Vector2i(-1,-1)
+
+func _set_current_highlight(highlight :Vector2i):
+	current_highlight = highlight
+	queue_redraw()
 
 func _set_level_data(new_data: LevelData):
 	if level_data != new_data:
@@ -45,8 +50,9 @@ func _draw():
 	for y in range(Constants.GRID_HEIGHT):
 		draw_pos.x = 0
 		for x in range(Constants.GRID_WIDTH):
+			var current_cell_size = cell_size * 0.9 if current_highlight == Vector2i(x,y) else cell_size
 			var color = level_data.get_color(x, y)
-			var rect = Rect2(draw_pos, cell_size)
+			var rect = Rect2(draw_pos, current_cell_size)
 			draw_rect(rect, color, true)
 			draw_pos.x += cell_size.x + cell_spacing
 		draw_pos.y += cell_size.y + cell_spacing

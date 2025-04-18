@@ -1,11 +1,13 @@
-[gd_scene load_steps=5 format=3 uid="uid://byvydukidk6i2"]
+[gd_scene load_steps=6 format=3 uid="uid://byvydukidk6i2"]
 
 [ext_resource type="PackedScene" uid="uid://c6k5nnpbypshi" path="res://addons/maaacks_game_template/base/scenes/menus/main_menu/main_menu.tscn" id="1_pss7b"]
 [ext_resource type="Script" uid="uid://bdet8115mn02d" path="res://scenes/menus/main_menu/main_menu.gd" id="2_lk0wa"]
+[ext_resource type="Theme" uid="uid://h7oy1by7cgh7" path="res://resources/themes/tower.tres" id="2_ub2bi"]
 [ext_resource type="PackedScene" uid="uid://bdvdf5v87mmrr" path="res://scenes/menus/options_menu/master_options_menu_with_tabs.tscn" id="3_lqjmk"]
 [ext_resource type="PackedScene" uid="uid://c1g50h2avck3w" path="res://scenes/credits/credits.tscn" id="3_vmius"]
 
 [node name="MainMenu" instance=ExtResource("1_pss7b")]
+theme = ExtResource("2_ub2bi")
 script = ExtResource("2_lk0wa")
 game_scene_path = "res://addons/maaacks_game_template/examples/scenes/game_scene/game_ui.tscn"
 options_packed_scene = ExtResource("3_lqjmk")
@@ -14,11 +16,74 @@ credits_packed_scene = ExtResource("3_vmius")
 [node name="BackgroundMusicPlayer" parent="." index="1"]
 bus = &"Master"
 
+[node name="BackgroundTextureRect" parent="." index="2"]
+theme = ExtResource("2_ub2bi")
+
+[node name="VersionMargin" parent="." index="3"]
+theme = ExtResource("2_ub2bi")
+
+[node name="VersionContainer" parent="VersionMargin" index="0"]
+theme = ExtResource("2_ub2bi")
+
+[node name="VersionLabel" parent="VersionMargin/VersionContainer" index="0"]
+theme = ExtResource("2_ub2bi")
+
+[node name="MenuContainer" parent="." index="4"]
+theme = ExtResource("2_ub2bi")
+
+[node name="TitleMargin" parent="MenuContainer" index="0"]
+theme = ExtResource("2_ub2bi")
+
+[node name="TitleContainer" parent="MenuContainer/TitleMargin" index="0"]
+theme = ExtResource("2_ub2bi")
+
 [node name="TitleLabel" parent="MenuContainer/TitleMargin/TitleContainer" index="0"]
+theme = ExtResource("2_ub2bi")
 text = "May I draw a card, Mr Picasso Senpai?!?"
 
+[node name="SubTitleMargin" parent="MenuContainer" index="1"]
+theme = ExtResource("2_ub2bi")
+
+[node name="SubTitleContainer" parent="MenuContainer/SubTitleMargin" index="0"]
+theme = ExtResource("2_ub2bi")
+
 [node name="SubTitleLabel" parent="MenuContainer/SubTitleMargin/SubTitleContainer" index="0"]
+theme = ExtResource("2_ub2bi")
 text = "Magical Coloring Puzzle Fun for Everyone"
+
+[node name="MenuButtonsMargin" parent="MenuContainer" index="2"]
+theme = ExtResource("2_ub2bi")
+
+[node name="MenuButtonsContainer" parent="MenuContainer/MenuButtonsMargin" index="0"]
+theme = ExtResource("2_ub2bi")
+
+[node name="MenuButtonsBoxContainer" parent="MenuContainer/MenuButtonsMargin/MenuButtonsContainer" index="0"]
+theme = ExtResource("2_ub2bi")
+
+[node name="NewGameButton" parent="MenuContainer/MenuButtonsMargin/MenuButtonsContainer/MenuButtonsBoxContainer" index="0"]
+theme = ExtResource("2_ub2bi")
 
 [node name="OptionsButton" parent="MenuContainer/MenuButtonsMargin/MenuButtonsContainer/MenuButtonsBoxContainer" index="1"]
 visible = false
+theme = ExtResource("2_ub2bi")
+
+[node name="CreditsButton" parent="MenuContainer/MenuButtonsMargin/MenuButtonsContainer/MenuButtonsBoxContainer" index="2"]
+theme = ExtResource("2_ub2bi")
+
+[node name="ExitButton" parent="MenuContainer/MenuButtonsMargin/MenuButtonsContainer/MenuButtonsBoxContainer" index="3"]
+theme = ExtResource("2_ub2bi")
+
+[node name="OptionsContainer" parent="." index="5"]
+theme = ExtResource("2_ub2bi")
+
+[node name="CreditsContainer" parent="." index="6"]
+theme = ExtResource("2_ub2bi")
+
+[node name="FlowControlContainer" parent="." index="7"]
+theme = ExtResource("2_ub2bi")
+
+[node name="FlowControl" parent="FlowControlContainer" index="0"]
+theme = ExtResource("2_ub2bi")
+
+[node name="BackButton" parent="FlowControlContainer/FlowControl" index="0"]
+theme = ExtResource("2_ub2bi")

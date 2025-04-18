@@ -1,7 +1,10 @@
-[gd_resource type="Resource" script_class="LevelData" load_steps=2 format=3 uid="uid://rpvaqugeofpr"]
+[gd_resource type="Resource" script_class="LevelData" load_steps=2 format=3 uid="uid://bhexgxvn05f22"]
 
 [ext_resource type="Script" uid="uid://dm7bqjdc45f0o" path="res://scr/resources/level_data.gd" id="1_bwnnv"]
 
 [resource]
 script = ExtResource("1_bwnnv")
 target_colors = Array[Color]([Color(0.549307, 0.549307, 0.549307, 1), Color(0, 0, 0, 1), Color(0, 0, 0, 1), Color(0, 0, 0, 1), Color(0, 0, 0, 1), Color(0, 0, 0, 1), Color(0, 0, 0, 1), Color(0.82396, 0.5, 0.32396, 1), Color(0, 0, 0, 1), Color(0, 0, 0, 1), Color(0, 0, 0, 1), Color(0, 0, 0, 1), Color(0, 0, 0, 1), Color(0, 0, 0, 1), Color(1, 0, 0.64792, 1), Color(0, 0, 0, 1), Color(0, 0, 0, 1), Color(0, 0, 0, 1), Color(0, 0, 0, 1), Color(0, 0, 0, 1), Color(0, 0, 0, 1), Color(1, 1, 1, 1), Color(0, 0, 0, 1), Color(0, 0, 0, 1), Color(0, 0, 0, 1), Color(0, 0, 0, 1), Color(0, 0, 0, 1), Color(0, 0, 0, 1), Color(0.5, 0.32396, 0.82396, 1), Color(0, 0, 0, 1), Color(0, 0, 0, 1), Color(0, 0, 0, 1), Color(0, 0, 0, 1), Color(0, 0, 0, 1), Color(0, 0, 0, 1), Color(0.5, 0.32396, 0.82396, 1), Color(0, 0, 0, 1), Color(0, 0, 0, 1), Color(0, 0, 0, 1), Color(0, 0, 0, 1), Color(0, 0, 0, 1), Color(0, 0, 0, 1), Color(0.5, 0.32396, 0.82396, 1), Color(0, 0, 0, 1), Color(0, 0, 0, 1), Color(0, 0, 0, 1), Color(0, 0, 0, 1), Color(0, 0, 0, 1), Color(0, 0, 0, 1), Color(0, 0.64792, 1, 1), Color(0, 0, 0, 1), Color(0, 0, 0, 1), Color(0, 0, 0, 1), Color(0, 0, 0, 1), Color(0, 0, 0, 1), Color(0, 0, 0, 1), Color(1, 1, 1, 1), Color(0, 0, 0, 1), Color(0, 0, 0, 1), Color(0, 0, 0, 1), Color(0, 0, 0, 1), Color(0, 0, 0, 1), Color(0, 0, 0, 1)])
+complexity = 862.0
+cell_scores = Array[int]([33, 42, 42, 42, 42, 42, 42, 33, 42, 42, 42, 42, 42, 42, 15, 42, 42, 42, 42, 42, 42, 3, 42, 42, 42, 42, 42, 42, 33, 42, 42, 42, 42, 42, 42, 33, 42, 42, 42, 42, 42, 42, 33, 42, 42, 42, 42, 42, 42, 15, 42, 42, 42, 42, 42, 42, 3, 42, 42, 42, 42, 42, 42])
+source_block_index = 39

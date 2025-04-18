@@ -10,7 +10,11 @@ signal grid_clicked(grid_pos: Vector2i)
 @onready var discard_button: TextureButton = %TextureButton
 @onready var target_container: GridContainer = %TargetContainer
 @onready var turn_label: Label = %TurnLabel
-
+@onready var confirmation_dialog :ConfirmationDialog = %ConfirmationDialog
+@onready var submit_button:Button = %SubmitButton
+@onready var scoring_panel:Control = %ScoringPanel
+@onready var score_label: Label = %ScoreLabel
+@onready var hearts : Array[Node] = (%HeartContainer).get_children()
 # Size for each cell's ColorRect
 var CELL_SIZE: Vector2 = Vector2(Constants.CELL_SIZE_INT, Constants.CELL_SIZE_INT) # Adjust as needed for desired visual size
 
@@ -43,7 +47,60 @@ func _ready() -> void:
 
 	# Ensure this control node can receive input events
 	mouse_filter = Control.MOUSE_FILTER_STOP # Stop input from propagating further
+	confirmation_dialog.confirmed.connect(_on_submit_image)
+	confirmation_dialog.canceled.connect(_on_cancel_dialog)
+	submit_button.pressed.connect(_on_show_dialog)
+	
 
+func _on_submit_image():
+	confirmation_dialog.visible = false
+	scoring_panel.visible = true
+	start_scoring()
+	
+func _on_cancel_dialog():
+	confirmation_dialog.visible = false
+	
+func _on_show_dialog():
+	confirmation_dialog.visible = true
+
+func sum_array(array):
+	var sum = 0.0
+	for element in array:
+		sum += element
+	return sum
+	
+func start_scoring():
+	var current_score = 0
+	var target_display = (target_container.get_child(0) as TargetDisplay)
+	var max_score =  sum_array(target_display.level_data.cell_scores)
+	score_label.text = "%.d" % current_score
+	for y in range(Constants.GRID_HEIGHT):
+		for x in range(Constants.GRID_WIDTH):
+			var cell_score =0
+			target_display._set_current_highlight(Vector2i(x,y))
+			var cell_data:CellData = _grid_data[y][x]
+			var z : int = (y * Constants.GRID_WIDTH) + x
+			var target_color = target_display.level_data.target_colors[z]
+			if cell_data and _are_colors_same(cell_data.display_color, target_color):
+				cell_score = target_display.level_data.cell_scores[z]
+			current_score += cell_score
+			score_label.text = "%.d" % current_score
+			_update_hearts(current_score, max_score)
+			await get_tree().create_timer(0.05).timeout
+	(target_container.get_child(0) as TargetDisplay)._set_current_highlight(Vector2i(-1,-1))
+
+func _are_colors_same(a:Color, b:Color) -> bool:
+	var threshold = 0.05
+	return (a.r - b.r) < threshold and (a.g - b.g) < threshold and(a.b - b.b) < threshold
+
+func _update_hearts(score:int,max_score:int):
+	var normalized = (score as float) / (max_score as float)
+	print("score: " + str(score) + " max: " + str(max_score) + " normalized: " + str(normalized))
+	(hearts[0] as Control).visible = normalized > 0
+	(hearts[1] as Control).visible = normalized > 0.25
+	(hearts[2] as Control).visible = normalized > 0.5
+	(hearts[3] as Control).visible = normalized > 0.75
+	(hearts[4] as Control).visible = normalized > 0.99
 
 ## Creates and adds ColorRect nodes for each grid cell to the GridContainer.
 func _create_cells() -> void:
@@ -68,10 +125,12 @@ func _create_cells() -> void:
 			# This might require tweaking based on how GridContainer positions children
 			cell_rect.position += CELL_SIZE / 2.0
 
+var _grid_data = null
 
 ## Updates the color of each visual cell based on the provided grid data.
 ## Expects grid_data to be an Array[Array] containing CellData objects (or similar).
 func update_display(grid_data: Array) -> void:
+	_grid_data = grid_data
 	var data_height = grid_data.size()
 	if data_height == 0: # Handle empty grid data case
 		push_warning("GridDisplay: Received empty grid_data.")
@@ -111,7 +170,7 @@ func _process(delta: float) -> void:
 	var current_hover_pos = _get_grid_coordinate()
 
 	# Check if the mouse is actually within the grid container's bounds
-	var is_within_bounds = grid_container.get_rect().has_point(grid_container.get_local_mouse_position())
+	var is_within_bounds = grid_container.get_rect().has_point(get_global_mouse_position())
 
 
 	if not is_within_bounds:
@@ -146,6 +205,8 @@ func _process(delta: float) -> void:
 		_currently_animated_cells = new_affected_cells
 
 		_hovered_grid_pos = current_hover_pos
+		
+	(target_container.get_child(0) as TargetDisplay)._set_current_highlight(current_hover_pos)
 
 
 func _get_grid_coordinate() -> Vector2i:

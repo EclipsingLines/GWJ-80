@@ -4,13 +4,8 @@
 class_name ImageProcessor
 extends Resource
 
-# Preloads
-const LevelData = preload("res://scr/resources/level_data.gd")
-const Constants = preload("res://scr/utils/constants.gd")
-const GameColorPalette = preload("res://scr/resources/color_palette.gd") # Assuming this path
-
 # --- Exports ---
-
+var main_level_scene = preload("res://scenes/main_game.tscn")
 ## The source image texture to process.
 @export var source_texture: Texture2D
 ## The color palette to use for mapping.
@@ -19,7 +14,7 @@ const GameColorPalette = preload("res://scr/resources/color_palette.gd") # Assum
 @export_dir var output_directory: String = "res://resources/levels/"
 
 # --- Processing Trigger---
-@export_tool_button("Process IMG", "Callable") var generate:Callable = _generate_level_resources_internal
+@export_tool_button("Process IMG", "Callable") var generate: Callable = _generate_level_resources_internal
 
 ## Internal function called by the setter to perform the generation.
 func _generate_level_resources_internal():
@@ -86,6 +81,24 @@ func _generate_level_resources_internal():
 			# --- Create and Save LevelData Resource ---
 			var level_data := LevelData.new()
 			level_data.target_colors = mapped_colors
+			level_data.source_block_index = block_count
+			var block_complexity = 0
+			var cell_score:Array[int] = []
+			for color in mapped_colors:
+				if color == Color.WHITE:
+					cell_score.append(3)
+					continue
+				elif color == palette.get_primary_1() or color == palette.get_primary_2() or color == palette.get_primary_3():
+					cell_score.append(15)
+					block_complexity += 1
+				elif color == Color.BLACK:
+					cell_score.append(42)
+					block_complexity += 15
+				else:
+					cell_score.append(33)
+					block_complexity += 10
+			level_data.complexity = block_complexity
+			level_data.cell_scores = cell_score
 
 			var base_filename := source_texture.resource_path.get_file().get_basename()
 			var output_filename := "%s_block_%d_%d.tres" % [base_filename, block_x, block_y]
@@ -97,6 +110,7 @@ func _generate_level_resources_internal():
 				push_error("ImageProcessor: Failed to save LevelData resource to '%s'. Error: %s" % [output_path, error_string(err)])
 			else:
 				block_count += 1
+				
 
 	print("Finished processing '%s'. Saved %d level blocks to '%s'." % [source_texture.resource_path, block_count, output_directory])
 	# Optional: Force a scan of the filesystem to make sure the editor sees the new files immediately

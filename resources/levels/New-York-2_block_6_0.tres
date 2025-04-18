@@ -1,7 +1,10 @@
-[gd_resource type="Resource" script_class="LevelData" load_steps=2 format=3 uid="uid://cd5qyym8c0ecu"]
+[gd_resource type="Resource" script_class="LevelData" load_steps=2 format=3 uid="uid://jckq1yfwsy15"]
 
 [ext_resource type="Script" uid="uid://dm7bqjdc45f0o" path="res://scr/resources/level_data.gd" id="1_gpi5v"]
 
 [resource]
 script = ExtResource("1_gpi5v")
 target_colors = Array[Color]([Color(0.5, 0.32396, 0.82396, 1), Color(1, 1, 1, 1), Color(1, 1, 1, 1), Color(1, 1, 1, 1), Color(1, 1, 1, 1), Color(1, 1, 1, 1), Color(1, 1, 1, 1), Color(0.5, 0.32396, 0.82396, 1), Color(1, 1, 1, 1), Color(0.5, 0.32396, 0.82396, 1), Color(1, 1, 1, 1), Color(1, 1, 1, 1), Color(1, 1, 1, 1), Color(1, 1, 1, 1), Color(0.5, 0.32396, 0.82396, 1), Color(1, 1, 1, 1), Color(1, 1, 1, 1), Color(1, 1, 1, 1), Color(1, 1, 1, 1), Color(1, 1, 1, 1), Color(1, 1, 1, 1), Color(1, 1, 1, 1), Color(0, 0.64792, 1, 1), Color(1, 1, 1, 1), Color(1, 1, 1, 1), Color(1, 1, 1, 1), Color(1, 1, 1, 1), Color(1, 1, 1, 1), Color(0.5, 0.32396, 0.82396, 1), Color(0.5, 0.32396, 0.82396, 1), Color(0, 0.64792, 1, 1), Color(1, 1, 1, 1), Color(1, 1, 1, 1), Color(1, 1, 1, 1), Color(1, 1, 1, 1), Color(0.32396, 0.82396, 0.5, 1), Color(0.5, 0.32396, 0.82396, 1), Color(0, 0.64792, 1, 1), Color(1, 1, 1, 1), Color(1, 1, 1, 1), Color(1, 1, 1, 1), Color(1, 1, 1, 1), Color(0, 0.64792, 1, 1), Color(0, 0.64792, 1, 1), Color(0, 0.64792, 1, 1), Color(1, 1, 1, 1), Color(1, 1, 1, 1), Color(1, 1, 1, 1), Color(1, 1, 1, 1), Color(0, 0.64792, 1, 1), Color(0, 0.64792, 1, 1), Color(0, 0.64792, 1, 1), Color(1, 1, 1, 1), Color(1, 1, 1, 1), Color(1, 1, 1, 1), Color(1, 1, 1, 1), Color(0, 0.64792, 1, 1), Color(0, 0.64792, 1, 1), Color(0, 0.64792, 1, 1), Color(1, 1, 1, 1), Color(1, 1, 1, 1), Color(1, 1, 1, 1), Color(1, 1, 1, 1)])
+complexity = 92.0
+cell_scores = Array[int]([33, 3, 3, 3, 3, 3, 3, 33, 3, 33, 3, 3, 3, 3, 33, 3, 3, 3, 3, 3, 3, 3, 15, 3, 3, 3, 3, 3, 33, 33, 15, 3, 3, 3, 3, 33, 33, 15, 3, 3, 3, 3, 15, 15, 15, 3, 3, 3, 3, 15, 15, 15, 3, 3, 3, 3, 15, 15, 15, 3, 3, 3, 3])
+source_block_index = 6

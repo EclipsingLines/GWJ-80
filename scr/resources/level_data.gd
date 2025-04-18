@@ -5,10 +5,9 @@ extends Resource
 ## Stores the 7x9 grid of target colors after palette mapping.
 ## Stored as a flat array (row-major order) for simplicity.
 @export var target_colors: Array[Color] = []
-
-## Optional: Store original image path and block index for reference
-# @export var source_image_path: String = ""
-# @export var source_block_index: int = -1
+@export var complexity:float = -1
+@export var cell_scores:Array[int] = []
+@export var source_block_index: int = -1
 
 func _init():
 	# Ensure array is initialized with the correct size (7x9 = 63)
