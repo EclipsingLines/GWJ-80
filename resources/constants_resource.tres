@@ -1,0 +1,13 @@
+[gd_resource type="Resource" script_class="ConstantsResource" load_steps=2 format=3 uid="uid://7k52xirg8gkb"]
+
+[ext_resource type="Script" uid="uid://bvet2gipi2v37" path="res://scr/utils/constants.gd" id="1_62dai"]
+
+[resource]
+script = ExtResource("1_62dai")
+GRID_WIDTH = 7
+GRID_HEIGHT = 9
+CELL_SIZE_INT = 40
+CELL_SPACING = 2
+INITIAL_HAND_SIZE = 5
+INITIAL_DECK_SIZE = 50
+metadata/_custom_type_script = "uid://bvet2gipi2v37"

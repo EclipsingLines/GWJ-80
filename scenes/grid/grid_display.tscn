@@ -65,3 +65,7 @@ size_flags_vertical = 8
 texture_normal = ExtResource("2_jn1gb")
 texture_hover = ExtResource("2_s6jil")
 texture_disabled = ExtResource("2_jn1gb")
+
+[node name="TargetContainer" type="GridContainer" parent="HBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2

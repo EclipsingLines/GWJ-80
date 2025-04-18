@@ -1,0 +1,10 @@
+[gd_scene load_steps=2 format=3 uid="uid://c6w0v8f1yqg7x"]
+
+[ext_resource type="Script" path="res://scenes/ui/target_display.gd" id="1_abcde"] ; Replace abcde with actual ID if known, otherwise Godot handles it
+
+[node name="TargetDisplay" type="Control"]
+layout_mode = 3 # Changed from 0 to 3 for potential container use
+anchors_preset = 0
+script = ExtResource("1_abcde")
+# Default cell_size and cell_spacing are set in the script's @export variables.
+# level_data will be set programmatically when the scene is instantiated.

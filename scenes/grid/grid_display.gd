@@ -8,6 +8,7 @@ signal grid_clicked(grid_pos: Vector2i)
 # Reference to the GridContainer node that will hold the cell visuals
 @onready var grid_container: GridContainer = %GridContainer
 @onready var discard_button: TextureButton = %TextureButton
+@onready var target_container: GridContainer = %TargetContainer
 @onready var turn_label: Label = %TurnLabel
 
 # Size for each cell's ColorRect

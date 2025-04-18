@@ -2,11 +2,6 @@
 class_name GridSystem
 extends Node
 
-const GameColorPalette = preload("res://scr/resources/color_palette.gd")
-const CellData = preload("res://scr/resources/cell_data.gd") # Preload CellData too
-const Constants = preload("res://scr/utils/constants.gd") # Preload Constants
-const ShapeDefinitions = preload("res://scr/utils/shape_definitions.gd") # Preload ShapeDefinitions
-const CardData = preload("res://scr/resources/card_data.gd") # Preload CardData
 
 # Signal emitted when grid cell data changes
 signal grid_updated
