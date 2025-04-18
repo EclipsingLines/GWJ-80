@@ -30,6 +30,10 @@ const XSHAPE_OFFSETS :Array[Vector2i]= [
 	Vector2i(-1, 1), Vector2i(1, 1)
 ]
 
+const DOT_OFFSETS :Array[Vector2i]= [
+	Vector2i(0,0)
+]
+
 
 ## Static function to retrieve the relative offsets for a given shape.
 static func get_offsets(shape: CardData.Shape) -> Array[Vector2i]:
@@ -44,6 +48,8 @@ static func get_offsets(shape: CardData.Shape) -> Array[Vector2i]:
 			return YLINE_OFFSETS
 		CardData.Shape.XShape:
 			return XSHAPE_OFFSETS
+		CardData.Shape.DOT:
+			return DOT_OFFSETS
 		_:
 			push_warning("ShapeDefinitions.get_offsets: Unknown shape provided: %s" % CardData.Shape.keys()[shape])
 			return [] # Return empty for unknown shapes

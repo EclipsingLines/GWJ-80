@@ -1,12 +1,23 @@
-[gd_scene load_steps=6 format=3 uid="uid://b1a2c3d4e5f6"]
+[gd_scene load_steps=9 format=3 uid="uid://b1a2c3d4e5f6"]
 
 [ext_resource type="Script" uid="uid://d4h52hqrlr4fu" path="res://scenes/grid/grid_display.gd" id="1_abcde"]
 [ext_resource type="Texture2D" uid="uid://cdc2k4ox7cxye" path="res://assets/icons/card_diagonal.png" id="2_jn1gb"]
+[ext_resource type="Theme" uid="uid://h7oy1by7cgh7" path="res://resources/themes/tower.tres" id="2_phxml"]
 [ext_resource type="Texture2D" uid="uid://d2rv8bbdlcm16" path="res://assets/icons/hourglass.png" id="2_ryyko"]
 [ext_resource type="Texture2D" uid="uid://rb8jxkvuyjsy" path="res://assets/icons/card_remove.png" id="2_s6jil"]
+[ext_resource type="Texture2D" uid="uid://bl1pxmr6v6x1s" path="res://assets/icons/suit_hearts.png" id="5_btvax"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_btvax"]
 font_size = 40
+
+[sub_resource type="LabelSettings" id="LabelSettings_phxml"]
+font_size = 120
+font_color = Color(0.79, 0.105333, 0, 1)
+outline_size = 4
+outline_color = Color(0, 0, 0, 1)
+shadow_size = 3
+shadow_color = Color(0.24, 0.24, 0.24, 0.823529)
+shadow_offset = Vector2(2, 2)
 
 [node name="GridDisplay" type="Control"]
 layout_mode = 3
@@ -19,17 +30,15 @@ mouse_filter = 1
 script = ExtResource("1_abcde")
 
 [node name="HBoxContainer" type="HBoxContainer" parent="."]
+visible = false
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
-offset_left = 100.0
-offset_top = 50.0
-offset_right = 100.0
-offset_bottom = 50.0
 grow_horizontal = 2
 grow_vertical = 2
 theme_override_constants/separation = 40
+alignment = 1
 
 [node name="GridContainer" type="GridContainer" parent="HBoxContainer"]
 unique_name_in_owner = true
@@ -37,31 +46,110 @@ layout_mode = 2
 
 [node name="VBoxContainer" type="VBoxContainer" parent="HBoxContainer"]
 layout_mode = 2
-theme_override_constants/separation = 70
-
-[node name="Control" type="VBoxContainer" parent="HBoxContainer/VBoxContainer"]
-layout_mode = 2
-size_flags_vertical = 0
+theme_override_constants/separation = 85
 alignment = 1
 
-[node name="TextureRect" type="TextureRect" parent="HBoxContainer/VBoxContainer/Control"]
+[node name="SubmitButton" type="Button" parent="HBoxContainer/VBoxContainer"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 200)
 layout_mode = 2
+size_flags_vertical = 2
+theme = ExtResource("2_phxml")
+
+[node name="TextureRect" type="TextureRect" parent="HBoxContainer/VBoxContainer/SubmitButton"]
+layout_mode = 2
+offset_right = 128.0
+offset_bottom = 128.0
 texture = ExtResource("2_ryyko")
 
-[node name="TurnLabel" type="Label" parent="HBoxContainer/VBoxContainer/Control"]
+[node name="TurnLabel" type="Label" parent="HBoxContainer/VBoxContainer/SubmitButton"]
 unique_name_in_owner = true
 layout_mode = 2
+offset_top = 132.0
+offset_right = 128.0
+offset_bottom = 187.0
 text = "100"
 label_settings = SubResource("LabelSettings_btvax")
 horizontal_alignment = 1
 
-[node name="HSeparator" type="HSeparator" parent="HBoxContainer/VBoxContainer/Control"]
+[node name="HSeparator" type="HSeparator" parent="HBoxContainer/VBoxContainer/SubmitButton"]
 layout_mode = 2
+offset_top = 191.0
+offset_right = 128.0
+offset_bottom = 195.0
 
 [node name="TextureButton" type="TextureButton" parent="HBoxContainer/VBoxContainer"]
 unique_name_in_owner = true
 layout_mode = 2
-size_flags_vertical = 8
+size_flags_vertical = 2
 texture_normal = ExtResource("2_jn1gb")
 texture_hover = ExtResource("2_s6jil")
 texture_disabled = ExtResource("2_jn1gb")
+
+[node name="TargetContainer" type="GridContainer" parent="HBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+
+[node name="ConfirmationDialog" type="ConfirmationDialog" parent="."]
+unique_name_in_owner = true
+title = "Submit Image"
+initial_position = 1
+ok_button_text = "Submit"
+
+[node name="ScoringPanel" type="PanelContainer" parent="."]
+unique_name_in_owner = true
+self_modulate = Color(1, 1, 1, 0.345098)
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -328.0
+offset_top = -148.5
+offset_right = 328.0
+offset_bottom = 148.5
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("2_phxml")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="ScoringPanel"]
+layout_mode = 2
+alignment = 1
+
+[node name="ScoreLabel" type="Label" parent="ScoringPanel/VBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "1500!!"
+label_settings = SubResource("LabelSettings_phxml")
+horizontal_alignment = 1
+
+[node name="HeartContainer" type="HBoxContainer" parent="ScoringPanel/VBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+alignment = 1
+
+[node name="Heart1" type="TextureRect" parent="ScoringPanel/VBoxContainer/HeartContainer"]
+modulate = Color(0.79, 0.105333, 0, 1)
+layout_mode = 2
+texture = ExtResource("5_btvax")
+
+[node name="Heart2" type="TextureRect" parent="ScoringPanel/VBoxContainer/HeartContainer"]
+modulate = Color(0.79, 0.105333, 0, 1)
+layout_mode = 2
+texture = ExtResource("5_btvax")
+
+[node name="Heart3" type="TextureRect" parent="ScoringPanel/VBoxContainer/HeartContainer"]
+modulate = Color(0.79, 0.105333, 0, 1)
+layout_mode = 2
+texture = ExtResource("5_btvax")
+
+[node name="Heart4" type="TextureRect" parent="ScoringPanel/VBoxContainer/HeartContainer"]
+modulate = Color(0.79, 0.105333, 0, 1)
+layout_mode = 2
+texture = ExtResource("5_btvax")
+
+[node name="Heart5" type="TextureRect" parent="ScoringPanel/VBoxContainer/HeartContainer"]
+modulate = Color(0.79, 0.105333, 0, 1)
+layout_mode = 2
+texture = ExtResource("5_btvax")

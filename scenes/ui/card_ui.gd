@@ -47,7 +47,12 @@ const SHAPE_PATTERNS = {
 		true, false, true,
 		false, true, false,
 		true, false, true
-	]
+	],
+	CardData.Shape.DOT: [
+		false, false, false,
+		false, true, false,
+		false, false, false
+	],
 }
 
 

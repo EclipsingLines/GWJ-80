@@ -9,7 +9,8 @@ enum Shape {
 	PLUS, # Standard 3x3 plus sign
 	XLine, # Horizontal 3-cell line
 	YLine, # Vertical 3-cell line
-	XShape # Corners of a 3x3 square plus the center
+	XShape, # Corners of a 3x3 square plus the center
+	DOT # Single pixel
 }
 
 ## The shape this card represents (e.g., O or PLUS).
