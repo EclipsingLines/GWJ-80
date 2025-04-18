@@ -6,8 +6,9 @@ extends Control
 signal grid_clicked(grid_pos: Vector2i)
 
 # Reference to the GridContainer node that will hold the cell visuals
-@onready var grid_container: GridContainer = $GridContainer
-
+@onready var grid_container: GridContainer = %GridContainer
+@onready var discard_button: TextureButton = %TextureButton
+@onready var turn_label: Label = %TurnLabel
 
 # Size for each cell's ColorRect
 var CELL_SIZE: Vector2 = Vector2(Constants.CELL_SIZE_INT, Constants.CELL_SIZE_INT) # Adjust as needed for desired visual size

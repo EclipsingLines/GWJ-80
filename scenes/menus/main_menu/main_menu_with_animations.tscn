@@ -376,10 +376,13 @@ modulate = Color(1, 1, 1, 0)
 modulate = Color(1, 1, 1, 0)
 
 [node name="TitleLabel" parent="MenuContainer/TitleMargin/TitleContainer" index="0"]
-text = "orbit_template"
+text = "May I draw a card, Mr Picasso Senpai?!?"
 
 [node name="SubTitleContainer" parent="MenuContainer/SubTitleMargin" index="0"]
 modulate = Color(1, 1, 1, 0)
+
+[node name="SubTitleLabel" parent="MenuContainer/SubTitleMargin/SubTitleContainer" index="0"]
+text = "Magical Coloring Puzzle Fun for Everyone"
 
 [node name="MenuButtonsContainer" parent="MenuContainer/MenuButtonsMargin" index="0"]
 modulate = Color(1, 1, 1, 0)
@@ -398,6 +401,9 @@ unique_name_in_owner = true
 visible = false
 layout_mode = 2
 text = "Level Select"
+
+[node name="OptionsButton" parent="MenuContainer/MenuButtonsMargin/MenuButtonsContainer/MenuButtonsBoxContainer" index="3"]
+visible = false
 
 [node name="LevelSelectContainer" type="MarginContainer" parent="." index="9"]
 unique_name_in_owner = true
