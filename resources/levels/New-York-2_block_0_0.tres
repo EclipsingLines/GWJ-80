@@ -1,4 +1,4 @@
-[gd_resource type="Resource" script_class="LevelData" load_steps=2 format=3 uid="uid://bgwfqhf5ltqbw"]
+[gd_resource type="Resource" script_class="LevelData" load_steps=2 format=3 uid="uid://cd3mrvivoql84"]
 
 [ext_resource type="Script" uid="uid://dm7bqjdc45f0o" path="res://scr/resources/level_data.gd" id="1_mcqpb"]
 
@@ -8,3 +8,4 @@ target_colors = Array[Color]([Color(1, 1, 1, 1), Color(1, 1, 1, 1), Color(1, 1, 
 complexity = 150.0
 cell_scores = Array[int]([3, 3, 3, 3, 3, 3, 3, 33, 3, 3, 3, 3, 3, 3, 33, 33, 3, 3, 3, 3, 3, 33, 33, 33, 3, 3, 3, 3, 33, 33, 3, 3, 3, 3, 3, 33, 33, 3, 3, 3, 3, 3, 33, 33, 3, 3, 3, 3, 3, 33, 33, 3, 3, 3, 3, 3, 33, 3, 3, 3, 3, 3, 3])
 source_block_index = 0
+position = Vector2i(0, 0)

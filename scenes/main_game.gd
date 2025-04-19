@@ -10,6 +10,7 @@ extends Node3D
 @onready var grid_display: GridDisplay = $ui_root/GridDisplay
 # Reference to the player hand UI
 @onready var hand_ui: HandUI = $ui_root/HandUI
+@onready var level_select : LevelSelect = $ui_root/LevelSelect
 
 const TargetDisplayScene = preload("res://scenes/ui/target_display.tscn")
 const LevelData = preload("res://scr/resources/level_data.gd") # Preload LevelData
@@ -70,10 +71,31 @@ func _ready() -> void:
 	grid_display.turn_label.text = "%1.0d" % turns_remaining
 	# Initial display update after nodes are ready
 	await get_tree().process_frame # Wait a frame ensures GridDisplay/HandUI also ran _ready
+	level_select.level_selected.connect(start_level)
+	grid_display.back.connect(show_level_select)
+	show_level_select()
+	
+
+func start_level(level_index:int):
+	level_select.visible = false
+	grid_display.visible = true
+	hand_ui.visible = true
 	_on_grid_updated() # Call handler directly for initial grid display
 	_initialize_player_hand() # Setup initial hand
-	_start_new_level() # Select and display initial target level
+	_start_new_level(level_index) # Select and display initial target level
+	grid_display.scoring_panel.visible = false
+	grid_display.grid_containers.visible = true
+	grid_display.in_game = true
+
 	
+func show_level_select():
+	grid_display.in_game = false
+	level_select.visible = true
+	grid_display.visible = false
+	hand_ui.visible = false
+	level_select.update_available_levels(available_levels)
+	
+
 # --- Level Loading and Display ---
 
 ## Scans the 'res://resources/levels/' directory and loads all LevelData resources.
@@ -104,7 +126,7 @@ func sort_by_complexity(a: LevelData, b: LevelData) -> bool:
 	return a.complexity < b.complexity
 
 ## Selects a new random level and updates the target display.
-func _start_new_level() -> void:
+func _start_new_level(index:int) -> void:
 	var target_display_container: GridContainer = grid_display.target_container
 	if available_levels.is_empty():
 		push_warning("MainGame: No levels loaded, cannot start new level.")
@@ -116,7 +138,7 @@ func _start_new_level() -> void:
 		return
 
 	# Select a random level
-	current_level_data = available_levels.pick_random()
+	current_level_data = available_levels[index]
 	print("MainGame: Starting level with target data from: %s" % current_level_data.resource_path)
 
 	# Update the target display

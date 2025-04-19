@@ -8,6 +8,7 @@ extends Resource
 @export var complexity:float = -1
 @export var cell_scores:Array[int] = []
 @export var source_block_index: int = -1
+@export var position : Vector2i = Vector2i(-1,-1)
 
 func _init():
 	# Ensure array is initialized with the correct size (7x9 = 63)
