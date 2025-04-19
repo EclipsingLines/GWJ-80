@@ -14,6 +14,8 @@ signal grid_clicked(grid_pos: Vector2i)
 @onready var submit_button:Button = %SubmitButton
 @onready var scoring_panel:Control = %ScoringPanel
 @onready var score_label: Label = %ScoreLabel
+@onready var grid_containers: HBoxContainer = %GridContainers
+@onready var back_button : Button = %BackButton
 @onready var hearts : Array[Node] = (%HeartContainer).get_children()
 # Size for each cell's ColorRect
 var CELL_SIZE: Vector2 = Vector2(Constants.CELL_SIZE_INT, Constants.CELL_SIZE_INT) # Adjust as needed for desired visual size
@@ -31,6 +33,9 @@ var _hover_animation_duration: float = 0.15 # Duration of the tween
 var _active_tweens: Dictionary = {} # Stores active tweens, keyed by Vector2i cell position
 var _selected_color: Color = Color(1, 1, 1, 0) # Current color for preview, default transparent white
 # ---------------------------------
+
+var in_game : bool = false
+signal back
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
@@ -50,7 +55,10 @@ func _ready() -> void:
 	confirmation_dialog.confirmed.connect(_on_submit_image)
 	confirmation_dialog.canceled.connect(_on_cancel_dialog)
 	submit_button.pressed.connect(_on_show_dialog)
+	back_button.pressed.connect(_on_back_button)
 	
+func _on_back_button():
+	back.emit()
 
 func _on_submit_image():
 	confirmation_dialog.visible = false
@@ -70,6 +78,7 @@ func sum_array(array):
 	return sum
 	
 func start_scoring():
+	back_button.visible = false
 	var current_score = 0
 	var target_display = (target_container.get_child(0) as TargetDisplay)
 	var max_score =  sum_array(target_display.level_data.cell_scores)
@@ -87,6 +96,7 @@ func start_scoring():
 			score_label.text = "%.d" % current_score
 			_update_hearts(current_score, max_score)
 			await get_tree().create_timer(0.05).timeout
+	back_button.visible = true
 	(target_container.get_child(0) as TargetDisplay)._set_current_highlight(Vector2i(-1,-1))
 
 func _are_colors_same(a:Color, b:Color) -> bool:
@@ -124,6 +134,9 @@ func _create_cells() -> void:
 			# Adjust position to account for pivot offset (needed if GridContainer doesn't handle it automatically)
 			# This might require tweaking based on how GridContainer positions children
 			cell_rect.position += CELL_SIZE / 2.0
+			
+			cell_rect.mouse_entered.connect(_on_mouse_enter)
+			cell_rect.mouse_exited.connect(_on_mouse_exit)
 
 var _grid_data = null
 
@@ -165,12 +178,20 @@ func update_display(grid_data: Array) -> void:
 			else:
 				push_warning("GridDisplay: Attempted to access grid_data out of bounds at (%d, %d)" % [x, y])
 
+func _on_mouse_enter():
+	is_within_bounds = true
+
+func _on_mouse_exit():
+	is_within_bounds = false
+	
+var is_within_bounds :=false
 
 func _process(delta: float) -> void:
+	if not in_game:
+		return
 	var current_hover_pos = _get_grid_coordinate()
 
 	# Check if the mouse is actually within the grid container's bounds
-	var is_within_bounds = grid_container.get_rect().has_point(get_global_mouse_position())
 
 
 	if not is_within_bounds:

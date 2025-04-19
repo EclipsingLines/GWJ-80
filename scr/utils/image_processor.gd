@@ -99,6 +99,7 @@ func _generate_level_resources_internal():
 					block_complexity += 10
 			level_data.complexity = block_complexity
 			level_data.cell_scores = cell_score
+			level_data.position = Vector2i(block_x,block_y)
 
 			var base_filename := source_texture.resource_path.get_file().get_basename()
 			var output_filename := "%s_block_%d_%d.tres" % [base_filename, block_x, block_y]

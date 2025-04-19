@@ -1,4 +1,4 @@
-[gd_scene load_steps=9 format=3 uid="uid://b1a2c3d4e5f6"]
+[gd_scene load_steps=10 format=3 uid="uid://b1a2c3d4e5f6"]
 
 [ext_resource type="Script" uid="uid://d4h52hqrlr4fu" path="res://scenes/grid/grid_display.gd" id="1_abcde"]
 [ext_resource type="Texture2D" uid="uid://cdc2k4ox7cxye" path="res://assets/icons/card_diagonal.png" id="2_jn1gb"]
@@ -6,6 +6,7 @@
 [ext_resource type="Texture2D" uid="uid://d2rv8bbdlcm16" path="res://assets/icons/hourglass.png" id="2_ryyko"]
 [ext_resource type="Texture2D" uid="uid://rb8jxkvuyjsy" path="res://assets/icons/card_remove.png" id="2_s6jil"]
 [ext_resource type="Texture2D" uid="uid://bl1pxmr6v6x1s" path="res://assets/icons/suit_hearts.png" id="5_btvax"]
+[ext_resource type="Texture2D" uid="uid://056byay3qlsd" path="res://assets/icons/arrow_counterclockwise.png" id="7_k3sdp"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_btvax"]
 font_size = 40
@@ -29,7 +30,8 @@ grow_vertical = 2
 mouse_filter = 1
 script = ExtResource("1_abcde")
 
-[node name="HBoxContainer" type="HBoxContainer" parent="."]
+[node name="GridContainers" type="HBoxContainer" parent="."]
+unique_name_in_owner = true
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -39,29 +41,29 @@ grow_vertical = 2
 theme_override_constants/separation = 40
 alignment = 1
 
-[node name="GridContainer" type="GridContainer" parent="HBoxContainer"]
+[node name="GridContainer" type="GridContainer" parent="GridContainers"]
 unique_name_in_owner = true
 layout_mode = 2
 
-[node name="VBoxContainer" type="VBoxContainer" parent="HBoxContainer"]
+[node name="VBoxContainer" type="VBoxContainer" parent="GridContainers"]
 layout_mode = 2
 theme_override_constants/separation = 85
 alignment = 1
 
-[node name="SubmitButton" type="Button" parent="HBoxContainer/VBoxContainer"]
+[node name="SubmitButton" type="Button" parent="GridContainers/VBoxContainer"]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(0, 200)
 layout_mode = 2
 size_flags_vertical = 2
 theme = ExtResource("2_phxml")
 
-[node name="TextureRect" type="TextureRect" parent="HBoxContainer/VBoxContainer/SubmitButton"]
+[node name="TextureRect" type="TextureRect" parent="GridContainers/VBoxContainer/SubmitButton"]
 layout_mode = 2
 offset_right = 128.0
 offset_bottom = 128.0
 texture = ExtResource("2_ryyko")
 
-[node name="TurnLabel" type="Label" parent="HBoxContainer/VBoxContainer/SubmitButton"]
+[node name="TurnLabel" type="Label" parent="GridContainers/VBoxContainer/SubmitButton"]
 unique_name_in_owner = true
 layout_mode = 2
 offset_top = 132.0
@@ -71,13 +73,13 @@ text = "100"
 label_settings = SubResource("LabelSettings_btvax")
 horizontal_alignment = 1
 
-[node name="HSeparator" type="HSeparator" parent="HBoxContainer/VBoxContainer/SubmitButton"]
+[node name="HSeparator" type="HSeparator" parent="GridContainers/VBoxContainer/SubmitButton"]
 layout_mode = 2
 offset_top = 191.0
 offset_right = 128.0
 offset_bottom = 195.0
 
-[node name="TextureButton" type="TextureButton" parent="HBoxContainer/VBoxContainer"]
+[node name="TextureButton" type="TextureButton" parent="GridContainers/VBoxContainer"]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_vertical = 2
@@ -85,7 +87,7 @@ texture_normal = ExtResource("2_jn1gb")
 texture_hover = ExtResource("2_s6jil")
 texture_disabled = ExtResource("2_jn1gb")
 
-[node name="TargetContainer" type="GridContainer" parent="HBoxContainer"]
+[node name="TargetContainer" type="GridContainer" parent="GridContainers"]
 unique_name_in_owner = true
 layout_mode = 2
 
@@ -153,3 +155,13 @@ texture = ExtResource("5_btvax")
 modulate = Color(0.79, 0.105333, 0, 1)
 layout_mode = 2
 texture = ExtResource("5_btvax")
+
+[node name="BackButton" type="Button" parent="ScoringPanel/VBoxContainer"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(200, 50)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 8
+theme = ExtResource("2_phxml")
+icon = ExtResource("7_k3sdp")
+icon_alignment = 1
