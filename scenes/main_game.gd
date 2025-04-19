@@ -1,5 +1,6 @@
 ## Main script for the primary game scene.
 ## Orchestrates core game systems like the grid.
+@tool
 extends Node3D
 
 # Reference to the grid data management system
@@ -12,9 +13,10 @@ extends Node3D
 
 const TargetDisplayScene = preload("res://scenes/ui/target_display.tscn")
 const LevelData = preload("res://scr/resources/level_data.gd") # Preload LevelData
-var available_levels: Array[LevelData] = []
+@export var available_levels: Array[LevelData] = []
 var current_level_data: LevelData = null
 # --- End Target Display ---
+@export_tool_button("Populate array", "Callable") var populate :Callable = _load_available_levels
 
 var discard_button: TextureButton
 # Player's current hand
@@ -70,7 +72,6 @@ func _ready() -> void:
 	await get_tree().process_frame # Wait a frame ensures GridDisplay/HandUI also ran _ready
 	_on_grid_updated() # Call handler directly for initial grid display
 	_initialize_player_hand() # Setup initial hand
-	_load_available_levels() # Load level data
 	_start_new_level() # Select and display initial target level
 	
 # --- Level Loading and Display ---
